@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+</head>
+
+<body>
+    <div class="container">
+        <h2>File Upload System</h2>
+        <hr>
+        <!-- <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#Image">Image</a></li>
+            <li><a data-toggle="tab" href="#URL">URL</a></li>
+        </ul> -->
+
+        <div class="tab-content">
+            <div id="Image" class="tab-pane fade in active">
+                <div class="form-group col-md-2" style="padding:0">
+                    <label class="control-label">Select Team</label>
+                    <br>
+                    <select class="drop-down" id="ddnTeam">
+                        <option value="0">--Select--</option>
+                        <option value="Team_1">Team 1</option>
+                        <option value="Team_2">Team 2</option>
+                        <option value="Team_3">Team 3</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6" style="padding:0">
+                    <label class="control-label">Upload</label>
+
+                    <input type="file" id="FileImage" class="" data-icon="false" name="myfile" disabled>
+                </div>
+            </div>
+            <!-- <div id="URL" class="tab-pane fade">
+                <div class="form-group col-md-6" style="padding:0">
+                    <label class="control-label">Enter Image URL</label>
+                    <input type="text" id="URLText" class="form-control">
+                </div>
+            </div> -->
+            <div class="clearfix"></div>
+        </div>
+        <div class="col-auto">
+            <a href="javascript:void(0)" class="btn btn-primary" id="btnSubmit">SUBMIT</a>
+            <div class="clearfix"></div>
+        </div>
+        <div class="col-md-12" style="padding:0;margin:10px 0;">
+            <p>
+                <h4>
+                    <span>STATUS:  </span>
+                    <span id="txtstatus"></span>
+                </h4>
+            </p>
+        </div>
+    </div>
+    <script type="text/javascript" src="{% static 'js/jquery.min.js'%}"></script>
+    <script src="{% static 'js/bootstrap.min.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/fileUpload.js'%}"></script>
+    <script>
+
+        function upload(event) {
+        event.preventDefault();
+        var uploadFile = new FormData();
+        uploadFile.append("file", $("#FileImage").get(0).files[0]);
+        var team = $('#ddnTeam').val()
+        uploadFile.append("team", team);
+        // uploadFile.append("title", $('form').get(0).file_name);
+        debugger;
+
+        $.ajax({
+            //url: $(this).attr('action'),
+            url: 'http://127.0.0.1:8002/upload',
+            type: 'POST',
+            data: uploadFile,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function(data) {
+                // alert('success');
+                if(data["success"]){
+                    $('#txtstatus').text("File uploaded successfully");
+                    $('#txtstatus').css('color','green');
+                }
+                else{
+                    $('#txtstatus').text("Error. File not uploaded.");
+                    $('#txtstatus').css('color','red');
+                }
+
+            },
+            error: function(data){
+                console.log("Error: ",data);
+                alert('Error in API call');
+            }
+        });
+        return true;
+        }
+
+        $(function() {
+            $('#btnSubmit').click(upload);
+        });
+
+        $('#ddnTeam').change(function(){
+            $('#FileImage').removeAttr('disabled')
+        })
+    </script>
+</body>
+</html>

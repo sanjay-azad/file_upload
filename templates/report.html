@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+</head>
+
+<body>
+    <div class="container">
+        <h2>File Upload - Report</h2>
+        <hr>
+        <div id="tblReport">
+        </div>
+    </div>
+    <script type="text/javascript" src="{% static 'js/jquery.min.js'%}"></script>
+    <script src="{% static 'js/bootstrap.min.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/fileUpload.js'%}"></script>
+    <script type="text/javascript" src=" https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+
+        $(document).ready(function(){
+
+            // $('#tblReport').DataTable( {
+            //     'ajax':{url: 'http://127.0.0.1:8002/get_report', dataSrc: 'data'}
+            // } );
+
+            $.ajax({
+            url: 'http://127.0.0.1:8002/get_report',
+            type: 'GET',
+            // data: [],
+            cache: false,
+            //processData: false,
+            //contentType: false,
+            success: function(data) {
+                debugger;
+
+                $("#tblReport").html(data["table"]);
+                $(".table").DataTable();
+
+            },
+            error: function(data){
+                console.log("Error: ",data);
+                alert('Error in API call');
+            }
+            });
+        })
+
+    </script>
+</body>
+</html>

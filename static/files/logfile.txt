@@ -1,0 +1,6 @@
+['03:12PM on September 11, 2019', 'Team_1', 'AIic3.gif']
+['03:31PM on September 11, 2019', 'Team_1', 'AIic3.gif']
+['03:35PM on September 11, 2019', 'Team_2', 'AIic3.gif']
+['03:45PM on September 11, 2019', 'Team_1', 'AIic3.gif']
+['06:10PM on September 11, 2019', 'Team_1', '1.png']
+
